@@ -6,6 +6,6 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/test")
+@router.get("/")
 def test():
-    return {"message": "Hello World"}
+    return {"HELLO": "WORLD"}

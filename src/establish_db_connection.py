@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-
 #FOR MONGO ATLAS
 from decouple import config
 

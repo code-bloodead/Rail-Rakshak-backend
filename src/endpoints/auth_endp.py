@@ -21,12 +21,7 @@ def login_station_admin(station_admin: StationAdminLogin):
     if station_admin.id == "" or station_admin.password == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
-    result = validate_station_admin(station_admin)
-
-    if "ERROR" in result.keys():
-        return result
-    
-    return {"SUCCESS":"LOGGED IN"}
+    return validate_station_admin(station_admin)
 
 #create station admin
 @router.post("/create_station_admin", description="Create Station admin")
@@ -47,12 +42,7 @@ def login_dept_admin(dept_admin: DeptAdminLogin):
     if dept_admin.id == "" or dept_admin.password == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
-    result = validate_dept_admin(dept_admin)
-
-    if "ERROR" in result.keys():
-        return result
-    
-    return {"SUCCESS":"LOGGED IN"}
+    return validate_dept_admin(dept_admin)
 
 #create DEPT admin
 @router.post("/create_dept_admin", description="Login Dept admin")
@@ -73,12 +63,7 @@ def login_staff(staff: StaffLogin):
     if staff.id == "" or staff.password == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
-    result = validate_staff(staff)
-
-    if "ERROR" in result.keys():
-        return result
-    
-    return {"SUCCESS":"LOGGED IN"}
+    return validate_staff(staff)
 
 # #create station admin
 @router.post("/create_staff", description="Create staff")

@@ -20,10 +20,13 @@ pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 def validate_station_admin(admin: StationAdminLogin):
     try:
         document = station_admins.find_one({"id": admin.id})
+
         if document == None:
             return {"ERROR":"INVALID CREDENTIALS"}
         if pwd_context.verify(admin.password, document['password']):
-            return {"SUCCESS":"TRUE"}
+            del document['_id']
+            del document['password']
+            return {"SUCCESS": document}
         else:
             return {"ERROR":"INVALID CREDENTIALS"}
     except Exception as e:
@@ -47,7 +50,9 @@ def validate_dept_admin(admin: DeptAdminLogin):
         if document == None:
             return {"ERROR":"INVALID CREDENTIALS"}
         if pwd_context.verify(admin.password, document['password']):
-            return {"SUCCESS":"TRUE"}
+            del document['_id']
+            del document['password']
+            return {"SUCCESS": document}
         else:
             return {"ERROR":"INVALID CREDENTIALS"}
     except Exception as e:
@@ -71,7 +76,9 @@ def validate_staff(staff: StaffLogin):
         if document == None:
             return {"ERROR":"INVALID CREDENTIALS"}
         if pwd_context.verify(staff.password, document['password']):
-            return {"SUCCESS":"TRUE"}
+            del document['_id']
+            del document['password']
+            return {"SUCCESS": document}
         else:
             return {"ERROR":"INVALID CREDENTIALS"}
     except Exception as e:

@@ -43,7 +43,7 @@ def login_admin(admin: AdminLogin):
 #create admin
 @router.post("/create_admin", description="Create Station/DEPT admin, pass role as DEPT_ADMIN or STATION_ADMIN")
 def add_admin(admin: Admin):
-    if admin.id == "" or admin.password == "" or admin.station_name == "":
+    if admin.id == "" or admin.password == "" or admin.station_name == "" or admin.admin_name == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
     if admin.role == "DEPT_ADMIN" and admin.dept_name == "N/A":

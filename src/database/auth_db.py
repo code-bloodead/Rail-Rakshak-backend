@@ -1,15 +1,11 @@
 from pymongo import ASCENDING
-from src.models.station_admin_model import StationAdmin, StationAdminLogin
-from src.models.dept_admin_model import DeptAdmin, DeptAdminLogin
+from src.models.admin_model import Admin, AdminLogin
 from src.models.staff_model import Staff, StaffLogin
 from src.establish_db_connection import database
 from passlib.context import CryptContext
 
-station_admins = database.StationAdmins
-station_admins.create_index([("id", ASCENDING)], unique=True)
-
-dept_admins = database.DeptAdmins
-dept_admins.create_index([("id", ASCENDING)], unique=True)
+admins = database.Admins
+admins.create_index([("id", ASCENDING)], unique=True)
 
 staffs = database.Staffs
 staffs.create_index([("id", ASCENDING)], unique=True)
@@ -17,9 +13,9 @@ staffs.create_index([("id", ASCENDING)], unique=True)
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
 
-def validate_station_admin(admin: StationAdminLogin):
+def validate_admin(admin: AdminLogin):
     try:
-        document = station_admins.find_one({"id": admin.id})
+        document = admins.find_one({"id": admin.id})
 
         if document == None:
             return {"ERROR":"INVALID CREDENTIALS"}
@@ -33,37 +29,11 @@ def validate_station_admin(admin: StationAdminLogin):
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
     
-def create_station_admin(admin: StationAdmin):
+def create_admin(admin: admins):
     try:
         document = admin.dict()
         document['password'] = pwd_context.hash(admin.password)
-        station_admins.insert_one(document)
-        #checking if 
-        return {"SUCCESS":"TRUE"}
-    except Exception as e:
-        print(e)
-        return {"ERROR":"SOME ERROR OCCURRED"}
-    
-def validate_dept_admin(admin: DeptAdminLogin):
-    try:
-        document = dept_admins.find_one({"id": admin.id})
-        if document == None:
-            return {"ERROR":"INVALID CREDENTIALS"}
-        if pwd_context.verify(admin.password, document['password']):
-            del document['_id']
-            del document['password']
-            return {"SUCCESS": document}
-        else:
-            return {"ERROR":"INVALID CREDENTIALS"}
-    except Exception as e:
-        print(e)
-        return {"ERROR":"SOME ERROR OCCURRED"}
-    
-def create_dept_admin(admin: DeptAdmin):
-    try:
-        document = admin.dict()
-        document['password'] = pwd_context.hash(admin.password)
-        dept_admins.insert_one(document)
+        admins.insert_one(document)
         #checking if 
         return {"SUCCESS":"TRUE"}
     except Exception as e:

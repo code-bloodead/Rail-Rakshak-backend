@@ -1,11 +1,8 @@
 from fastapi import  APIRouter
-from src.models.station_admin_model import StationAdmin, StationAdminLogin
-from src.models.dept_admin_model import DeptAdmin, DeptAdminLogin
+from src.models.admin_model import Admin, AdminLogin
 from src.models.staff_model import Staff, StaffLogin
-from src.database.auth_db import (validate_station_admin, 
-                                  create_station_admin, 
-                                  validate_dept_admin, 
-                                  create_dept_admin,
+from src.database.auth_db import (validate_admin, 
+                                  create_admin,
                                   validate_staff,
                                   create_staff)
 
@@ -15,47 +12,29 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-#login station admin
-@router.post("/station_admin", description="Login Station admin")
-def login_station_admin(station_admin: StationAdminLogin):
-    if station_admin.id == "" or station_admin.password == "":
+#login admin
+@router.post("/admin", description="Login for Station/Dept admin, Returns Object")
+def login_admin(admin: AdminLogin):
+    if admin.id == "" or admin.password == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
-    return validate_station_admin(station_admin)
+    return validate_admin(admin)
 
-#create station admin
-@router.post("/create_station_admin", description="Create Station admin")
-def add_station_admin(station_admin: StationAdmin):
-    if station_admin.id == "" or station_admin.password == "" or station_admin.station_name == "":
+#create admin
+@router.post("/create_admin", description="Create Station/DEPT admin, pass role as DEPT_ADMIN or STATION_ADMIN")
+def add_admin(admin: Admin):
+    if admin.id == "" or admin.password == "" or admin.station_name == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
-    result = create_station_admin(station_admin)
+    if admin.role == "DEPT_ADMIN" and admin.dept_name == "N/A":
+        return {"ERROR":"MISSING DEPT NAME FOR DEPT ADMIN"}
+
+    result = create_admin(admin)
 
     if "ERROR" in result.keys():
         return result
     
-    return {"SUCCESS":"STATION ADMIN CREATED"}
-
-#login dept admin
-@router.post("/dept_admin", description="Login Dept admin")
-def login_dept_admin(dept_admin: DeptAdminLogin):
-    if dept_admin.id == "" or dept_admin.password == "":
-        return {"ERROR":"MISSING PARAMETERS"}
-    
-    return validate_dept_admin(dept_admin)
-
-#create DEPT admin
-@router.post("/create_dept_admin", description="Login Dept admin")
-def add_dept_admin(dept_admin: DeptAdmin):
-    if dept_admin.id == "" or dept_admin.password == "" or dept_admin.station_name == "" or dept_admin.dept_name == "":
-        return {"ERROR":"MISSING PARAMETERS"}
-    
-    result = create_dept_admin(dept_admin)
-
-    if "ERROR" in result.keys():
-        return result
-    
-    return {"SUCCESS":"DEPT ADMIN CREATED"}
+    return {"SUCCESS":"ADMIN CREATED"}
 
 #login staff
 @router.post("/staff", description="Login Staff")
@@ -76,4 +55,4 @@ def add_staff(staff: Staff):
     if "ERROR" in result.keys():
         return result
     
-    return {"SUCCESS":"STATION ADMIN CREATED"}
+    return {"SUCCESS":"STAFF CREATED"}

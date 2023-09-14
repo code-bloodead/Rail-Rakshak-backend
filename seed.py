@@ -68,31 +68,36 @@ for i in range(10):
         station_name="Andheri",
         dept_name="Maintenance",
         staff_name="Staff"+str(i),
-        status="AVAILABLE" if i%2==0 else "ASSIGNED"
+        status="Available" if i%2==0 else "Assigned",
+        phone="912345678"+str(i)
     )
     staff2 = Staff(
         password=PASSWORD,
         station_name="Andheri",
         dept_name="Security",
         staff_name="Staff"+str(i),
-        status="AVAILABLE" if i%2==0 else "ASSIGNED"
+        status="Available" if i%2==0 else "Assigned",
+        phone="912345673"+str(i)
     )
     staff3 = Staff(
         password=PASSWORD,
         station_name="Bandra",
         dept_name="Maintenance",
         staff_name="Staff"+str(i),
-        status="AVAILABLE" if i%2==0 else "ASSIGNED"
+        status="Available" if i%2==0 else "Assigned",
+        phone="912345674"+str(i)
     )
     staff4 = Staff(
         password=PASSWORD,
         station_name="Bandra",
         dept_name="Security",
         staff_name="Staff"+str(i),
-        status="AVAILABLE" if i%2==0 else "ASSIGNED"
+        status="Available" if i%2==0 else "Assigned",
+        phone="912345676"+str(i)
     )
     
     create_staff(staff1)
     create_staff(staff2)
     create_staff(staff3)
     create_staff(staff4)
+

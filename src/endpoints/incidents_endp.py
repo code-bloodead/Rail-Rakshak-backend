@@ -8,7 +8,7 @@ import random
 s3 = boto3.resource(
     service_name='s3',
     aws_access_key_id=f"{AWS_KEY}",
-    aws_secret_access_key=f"{AWS_SECRET_KEY}"
+    aws_secret_access_key=f"{SECRET_KEY_AWS}"
 )
 bucket = s3.Bucket(S3_BUCKET_NAME)
 

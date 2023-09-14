@@ -81,7 +81,7 @@ def validate_staff(staff: StaffLogin):
     
 def create_staff(staff: Staff):
     try:
-        document = Staff.dict()
+        document = staff.dict()
         document['password'] = pwd_context.hash(staff.password)
         id = generateID()
         distincts = staffs.distinct("id")

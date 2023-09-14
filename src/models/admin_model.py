@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from fastapi import Form
 
 class Admin(BaseModel):
-    id: str = Form(...)
+    id: str = Form(default="")
     password: str = Form(...)
     station_name: str = Form(...)
     role: str = Form(default="DEPT_ADMIN")

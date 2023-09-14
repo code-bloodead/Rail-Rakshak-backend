@@ -1,7 +1,7 @@
 from fastapi import  APIRouter, UploadFile, Form, File
 from src.models.incidents_model import Incidents
 from src.database.incident_db import create_incident
-from src.config import AWS_KEY, AWS_SECRET_KEY, S3_BUCKET_NAME
+from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
 import boto3
 import random
 

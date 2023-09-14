@@ -8,6 +8,7 @@ class Admin(BaseModel):
     role: str = Form(default="DEPT_ADMIN")
     dept_name: str = Form(default="N/A")
     admin_name: str = Form(...)
+    photo: str = Form(default="https://cdn-icons-png.flaticon.com/512/848/848006.png")
 
 class AdminLogin(BaseModel):
     id: str = Form(...)

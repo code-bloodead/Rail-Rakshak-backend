@@ -7,6 +7,8 @@ class Staff(BaseModel):
     station_name: str = Form(...)
     dept_name: str = Form(...)
     staff_name: str = Form(...)
+    status: str = Form(default="AVAILABLE")
+    photo: str = Form(default="https://cdn-icons-png.flaticon.com/512/848/848006.png")
 
 class StaffLogin(BaseModel):
     id: str = Form(...)

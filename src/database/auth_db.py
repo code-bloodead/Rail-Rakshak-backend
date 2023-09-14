@@ -4,6 +4,7 @@ from src.models.staff_model import Staff, StaffLogin
 from src.models.user_model import User, UserLogin
 from src.establish_db_connection import database
 from passlib.context import CryptContext
+import random
 
 admins = database.Admins
 admins.create_index([("id", ASCENDING)], unique=True)
@@ -11,10 +12,20 @@ admins.create_index([("id", ASCENDING)], unique=True)
 staffs = database.Staffs
 staffs.create_index([("id", ASCENDING)], unique=True)
 
-collection = database.Users
-collection.create_index([("mobile", ASCENDING)], unique=True)
+users = database.Users
+users.create_index([("mobile", ASCENDING)], unique=True)
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
+def generateID():
+    # 8 characters long alphanumeric id in uppercase
+    id = ""
+    for i in range(8):
+        if random.random() < 0.5:
+            id += chr(random.randint(65,90))
+        else:
+            id += str(random.randint(0,9))
+    return id
+    
 
 def validate_admin(admin: AdminLogin):
     try:
@@ -36,9 +47,19 @@ def create_admin(admin: Admin):
     try:
         document = admin.dict()
         document['password'] = pwd_context.hash(admin.password)
+        id = generateID()
+        distincts = admins.distinct("id")
+
+        #until we have a unique id
+        while id in distincts:
+            id = generateID()
+
+        document['id'] = id
         admins.insert_one(document)
         #checking if 
-        return {"SUCCESS":"TRUE"}
+        del document['password']
+        del document['_id']
+        return {"SUCCESS": document}
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
@@ -62,9 +83,21 @@ def create_staff(staff: Staff):
     try:
         document = Staff.dict()
         document['password'] = pwd_context.hash(staff.password)
+        id = generateID()
+        distincts = staffs.distinct("id")
+
+        #until we have a unique id
+        while id in distincts:
+            id = generateID()
+
+        document['id'] = id
+        
         staffs.insert_one(document)
         #checking if 
-        return {"SUCCESS":"TRUE"}
+        del document['password']
+        del document['_id']
+
+        return {"SUCCESS": document}
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
@@ -75,7 +108,7 @@ def create_user(user: User):
     try:
         document = user.dict()
         document['password'] = pwd_context.hash(user.password)
-        result = collection.insert_one(document)
+        result = users.insert_one(document)
         return result
     except Exception as e:
         print(e)
@@ -83,7 +116,7 @@ def create_user(user: User):
 
 def check_user(user: UserLogin, otp=None):
     try:
-        document = collection.find_one({"mobile":user.mobile})
+        document = users.find_one({"mobile":user.mobile})
         if pwd_context.verify(user.password,document['password']):
             if otp != None:
                 if otp == document['otp'] and document['otp']!="EXPIRED":
@@ -101,7 +134,7 @@ def check_user(user: UserLogin, otp=None):
     
 def make_user_valid(mobile):
     try:
-        document = collection.update_one({"mobile": mobile}, {"$set": {"otp":"EXPIRED","is_verified":True}})
+        document = users.update_one({"mobile": mobile}, {"$set": {"otp":"EXPIRED","is_verified":True}})
         if(document.matched_count>0):
             return "SUCCESS"
         else:
@@ -112,7 +145,7 @@ def make_user_valid(mobile):
 
 def update_otp(mobile,otp):
     try:
-        document = collection.update_one({"mobile": mobile}, {"$set": {"otp":otp}})
+        document = users.update_one({"mobile": mobile}, {"$set": {"otp":otp}})
         if(document.matched_count>0):
             return "SUCCESS"
         else:

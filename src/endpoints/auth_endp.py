@@ -43,18 +43,14 @@ def login_admin(admin: AdminLogin):
 #create admin
 @router.post("/create_admin", description="Create Station/DEPT admin, pass role as DEPT_ADMIN or STATION_ADMIN")
 def add_admin(admin: Admin):
-    if admin.id == "" or admin.password == "" or admin.station_name == "" or admin.admin_name == "":
+    if admin.password == "" or admin.station_name == "" or admin.admin_name == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
     if admin.role == "DEPT_ADMIN" and admin.dept_name == "N/A":
         return {"ERROR":"MISSING DEPT NAME FOR DEPT ADMIN"}
 
     result = create_admin(admin)
-
-    if "ERROR" in result.keys():
-        return result
-    
-    return {"SUCCESS":"ADMIN CREATED"}
+    return result
 
 #login staff
 @router.post("/staff", description="Login Staff")
@@ -67,15 +63,11 @@ def login_staff(staff: StaffLogin):
 # #create station admin
 @router.post("/create_staff", description="Create staff")
 def add_staff(staff: Staff):
-    if staff.id == "" or staff.password == "" or staff.station_name == "" or staff.dept_name == "" or staff.staff_name == "":
+    if staff.password == "" or staff.station_name == "" or staff.dept_name == "" or staff.staff_name == "":
         return {"ERROR":"MISSING PARAMETERS"}
     
     result = create_staff(staff)
-
-    if "ERROR" in result.keys():
-        return result
-    
-    return {"SUCCESS":"STAFF CREATED"}
+    return result
 
 #### USER AUTHENTICATION ####
 @router.post("/signup")

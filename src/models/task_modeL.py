@@ -1,0 +1,17 @@
+from pydantic import BaseModel
+from fastapi import Form
+
+class Task(BaseModel):
+    id: str = Form(default="")
+    description: str = Form(default="")
+    assigned_to: list = Form(default=[])
+    image: str = Form(default="")
+    created_at: str = Form(default="")
+    deadline: str = Form(default="")
+    type: str = Form(default="")
+    status: str = Form(default="Not Assigned")
+
+class IncidentToTask(BaseModel):
+    incident_id: str = Form(...)
+    deadline: str = Form(...)
+    assigned_to: list = Form(default=[])

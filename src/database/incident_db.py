@@ -1,5 +1,6 @@
 from pymongo import ASCENDING
 from src.establish_db_connection import database
+from src.models.incidents_model import Incidents
 import random
 
 incidents = database.Incidents
@@ -42,6 +43,24 @@ def fetch_all_incidents():
         # we don't want to return the _id field
         all_incidents = list(incidents.find({},{"_id":0}))
         return {"SUCCESS": all_incidents}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}
+    
+# get incident by id
+def get_incident_by_id(incident_id):
+    try:
+        incident = incidents.find_one({"id":incident_id},{"_id":0})
+        return Incidents(**incident)
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}
+    
+#updating status of the incident to In Progress in db
+def update_incident_status(incident_id, status):
+    try:
+        incidents.update_one({"id":incident_id},{"$set":{"status":status}})
+        return {"SUCCESS":"STATUS UPDATED"}
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}

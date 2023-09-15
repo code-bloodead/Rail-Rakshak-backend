@@ -35,3 +35,13 @@ def create_incident(incident):
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
    
+
+# get all incidents
+def fetch_all_incidents():
+    try:
+        # we don't want to return the _id field
+        all_incidents = list(incidents.find({},{"_id":0}))
+        return {"SUCCESS": all_incidents}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

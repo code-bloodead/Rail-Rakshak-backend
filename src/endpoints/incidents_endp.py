@@ -1,6 +1,6 @@
 from fastapi import  APIRouter, UploadFile, Form, File
 from src.models.incidents_model import Incidents
-from src.database.incident_db import create_incident
+from src.database.incident_db import create_incident, fetch_all_incidents
 from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
 import boto3
 import random
@@ -45,3 +45,9 @@ def create_incident_by_user(image: UploadFile = File(...), title: str = Form(...
 
     result = create_incident(incident)
     return result
+
+## get all incidents
+@router.get("/all_incidents")
+def get_all_incidents():
+    return fetch_all_incidents()
+    

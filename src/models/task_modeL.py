@@ -10,6 +10,7 @@ class Task(BaseModel):
     deadline: str = Form(default="")
     type: str = Form(default="")
     status: str = Form(default="Not Assigned")
+    assc_incident: str = Form(default="N/A")
 
 class IncidentToTask(BaseModel):
     incident_id: str = Form(...)

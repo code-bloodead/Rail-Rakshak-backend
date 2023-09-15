@@ -10,4 +10,4 @@ class Incidents(BaseModel):
     station_name: str = Form(...)
     location: str = Form(...)
     source: str = Form(default="CCTV")
-    status: str = Form(default="Under Review")
+    status: str = Form(default="Pending")

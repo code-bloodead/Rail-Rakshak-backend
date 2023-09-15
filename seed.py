@@ -1,6 +1,9 @@
 from src.models.admin_model import Admin
 from src.models.staff_model import Staff
 from src.database.auth_db import create_admin, create_staff
+from src.database.incident_db import create_incident
+from src.models.incidents_model import Incidents
+
 #### Creating 2 Station admins
 PASSWORD = "123456aA"
 
@@ -100,4 +103,31 @@ for i in range(10):
     create_staff(staff2)
     create_staff(staff3)
     create_staff(staff4)
+
+
+#### Creating 10 incidents for each station
+
+#crime, violence, stampede, cleaniness, safety threat
+type = ["Crime","Violence","Stampede","Cleaniness","Safety Threat"]
+
+for i in range(10):
+    incident1 = Incidents(
+        title="IncidentA"+str(i),
+        description="Incident"+str(i),
+        type=type[i%5],
+        station_name="Andheri",
+        location="Platform no. 1",
+        source="CCTV"
+    )
+    incident2 = Incidents(
+        title="IncidentB"+str(i),
+        description="Incident"+str(i),
+        type=type[i%5],
+        station_name="Bandra",
+        location="Platform no. 1",
+        source="CCTV"
+    )
+    create_incident(incident1)
+    create_incident(incident2)
+
 

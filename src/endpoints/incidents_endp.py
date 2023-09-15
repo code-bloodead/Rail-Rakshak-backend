@@ -1,6 +1,6 @@
-from fastapi import  APIRouter, UploadFile, Form
+from fastapi import APIRouter, UploadFile, Form
 from src.models.incidents_model import Incidents
-from src.database.incident_db import create_incident, fetch_all_incidents
+from src.database.incident_db import create_incident, fetch_all_incidents, fetch_incidents_by_dept_and_station
 from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
 import boto3
 import random
@@ -55,3 +55,7 @@ def generateID():
 def get_all_incidents():
     return fetch_all_incidents()
     
+## get incident by dept name and station name
+@router.get("/get_incidents_by_dept_and_station")
+def get_incidents_by_dept_and_station(dept_name: str, station_name: str):
+    return fetch_incidents_by_dept_and_station(dept_name, station_name)

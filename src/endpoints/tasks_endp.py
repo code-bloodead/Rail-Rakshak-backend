@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from src.models.task_modeL import Task, IncidentToTask
+from src.models.task_model import Task, IncidentToTask
 from src.database.task_db import create_task
 from src.database.incident_db import get_incident_by_id, update_incident_status
 
@@ -37,7 +37,8 @@ def convert_incident_to_task(incedent_to_task: IncidentToTask):
         description=incident.description, 
         image=incident.image,
         deadline=incedent_to_task.deadline, 
-        type=incident.type, 
+        type=incident.type,
+        assc_incident=incedent_to_task.incident_id
     )
 
     if incedent_to_task.assigned_to == []:

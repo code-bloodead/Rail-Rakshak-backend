@@ -28,23 +28,24 @@ def generateID():
             id += str(random.randint(0,9))
     return id
 
-# @router.post("/user_incident")
-# def create_incident_by_user(image: UploadFile = File(...), title: str = Form(...), description: str = Form(...), type: str = Form(...), station_name: str = Form(...), location: str = Form(...), source: str = Form(...)):
-#     incident = Incidents(title=title, description=description, type=type, station_name=station_name, location=location, source=source)
+@router.post("/user_incident")
+def create_incident_by_user(image: UploadFile = File(...), title: str = Form(...), description: str = Form(...), type: str = Form(...), station_name: str = Form(...), location: str = Form(...), source: str = Form(...)):
+    # incident = Incidents(title=title, description=description, type=type, station_name=station_name, location=location, source=source)
 
-#     filename = image.filename.replace(" ","")
-#     img_extension = filename.split(".")[1]
+    # filename = image.filename.replace(" ","")
+    # img_extension = filename.split(".")[1]
      
-#     if img_extension not in ["png", "jpg","jpeg"]:
-#         return {"ERROR":"INVALID IMAGE FORMAT"}
+    # if img_extension not in ["png", "jpg","jpeg"]:
+    #     return {"ERROR":"INVALID IMAGE FORMAT"}
 
-#     uname = str(filename.split(".")[0] + generateID() + "."+ img_extension)
-#     bucket.upload_fileobj(image.file, uname)
-#     url = f"https://{S3_BUCKET_NAME}.s3.amazonaws.com/{uname}"
-#     incident.image = url
+    # uname = str(filename.split(".")[0] + generateID() + "."+ img_extension)
+    # bucket.upload_fileobj(image.file, uname)
+    # url = f"https://{S3_BUCKET_NAME}.s3.amazonaws.com/{uname}"
+    # incident.image = url
 
-#     result = create_incident(incident)
-#     return result
+    # result = create_incident(incident)
+    # return result
+    return "true"
 
 ## get all incidents
 @router.get("/all_incidents")

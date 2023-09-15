@@ -2,15 +2,15 @@ from fastapi import  APIRouter, UploadFile, Form, File
 from src.models.incidents_model import Incidents
 from src.database.incident_db import create_incident, fetch_all_incidents
 from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
-# import boto3
+import boto3
 import random
 
-# s3 = boto3.resource(
-#     service_name='s3',
-#     aws_access_key_id=f"{AWS_KEY}",
-#     aws_secret_access_key=f"{SECRET_KEY_AWS}"
-# )
-# bucket = s3.Bucket(S3_BUCKET_NAME)
+s3 = boto3.resource(
+    service_name='s3',
+    aws_access_key_id=f"{AWS_KEY}",
+    aws_secret_access_key=f"{SECRET_KEY_AWS}"
+)
+bucket = s3.Bucket(S3_BUCKET_NAME)
 
 router = APIRouter(
     prefix="/incidents",

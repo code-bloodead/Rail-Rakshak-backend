@@ -11,7 +11,9 @@ class Task(BaseModel):
     type: str = Form(default="")
     status: str = Form(default="Not Assigned")
     assc_incident: str = Form(default="N/A")
-
+    dept_name: str = Form(default="")
+    station_name: str = Form(default="")
+    
 class IncidentToTask(BaseModel):
     incident_id: str = Form(...)
     deadline: str = Form(...)

@@ -5,7 +5,7 @@ from src.database.incident_db import get_incident_by_id
 
 router = APIRouter(
     prefix="/tasks",
-    tags=["Application"],
+    tags=["Tasks"],
     responses={404: {"description": "Not found"}},
 )
 

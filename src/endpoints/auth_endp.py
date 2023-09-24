@@ -16,7 +16,7 @@ from src.config import API_KEY, SMS_WEBHOOK
 
 router = APIRouter(
     prefix="/auth",
-    tags=["Application"],
+    tags=["Auths"],
     responses={404: {"description": "Not found"}},
 )
 

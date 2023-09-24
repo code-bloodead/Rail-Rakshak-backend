@@ -3,7 +3,7 @@ from src.database.staff_db import get_staffs_by_dept
 
 router = APIRouter(
     prefix="/staff",
-    tags=["Application"],
+    tags=["Staff"],
     responses={404: {"description": "Not found"}},
 )
 

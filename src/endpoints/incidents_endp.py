@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 # from fastapi import UploadFile, Form
-# from src.models.incidents_model import Incidents
+from src.models.incidents_model import Incidents
 from src.database.incident_db import create_incident, fetch_all_incidents, fetch_incidents_by_dept_and_station
 from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
 import boto3
@@ -15,7 +15,7 @@ bucket = s3.Bucket(S3_BUCKET_NAME)
 
 router = APIRouter(
     prefix="/incidents",
-    tags=["Application"],
+    tags=["Incidents"],
     responses={404: {"description": "Not found"}},
 )
 
@@ -28,6 +28,18 @@ def generateID():
         else:
             id += str(random.randint(0,9))
     return id
+
+@router.post("/create_incident")
+def new_incident(incident: Incidents):
+    try:
+        if incident.title == "" or incident.type == "" or incident.station_name == "" or incident.source == "" or incident.image == "":
+            return {"ERROR": "MISSING PARAMETERS"}
+
+        result = create_incident(incident)
+        return result
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}
 
 # @router.post("/user_incident")
 # def create_incident_by_user(image: UploadFile, title: str = Form(...), description: str = Form(...), type: str = Form(...), station_name: str = Form(...), location: str = Form(...), source: str = Form(...)):

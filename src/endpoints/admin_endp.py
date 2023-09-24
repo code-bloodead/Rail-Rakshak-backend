@@ -3,7 +3,7 @@ from src.database.admin_db import get_admin_by_id
 
 router = APIRouter(
     prefix="/admin",
-    tags=["Application"],
+    tags=["Admins"],
     responses={404: {"description": "Not found"}},
 )
 

@@ -37,3 +37,11 @@ def create_task(task):
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
    
+def fetch_tasks_by_dept(dept_name, station_name):
+    try:        
+        tasks_list = list(tasks.find({"dept_name":dept_name, "station_name":station_name}, {"_id":0}))
+        return {"SUCCESS": tasks_list}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}
+    

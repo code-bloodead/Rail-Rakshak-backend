@@ -6,7 +6,7 @@ class User(BaseModel):
     password: str = Form(...)
     mobile: str = Form(...)
     otp: str = Form(default="")
-    is_verified: str = Form(default=False)
+    is_verified: bool = Form(default=False)
     active: bool = Form(default=False)
 
 class UserLogin(BaseModel):

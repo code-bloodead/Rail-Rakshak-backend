@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.tasks_model import Task, IncidentToTask
+from src.models.tasks_model import Task, IncidentToTask
 from src.database.task_db import create_task
 from src.database.incident_db import get_incident_by_id, update_incident_status
 

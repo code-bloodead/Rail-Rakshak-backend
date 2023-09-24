@@ -1,4 +1,4 @@
-from fastapi import  APIRouter
+from fastapi import  APIRouter, Response, status
 from src.models.admin_model import Admin, AdminLogin
 from src.models.staff_model import Staff, StaffLogin
 from src.database.auth_db import (validate_admin, 
@@ -71,45 +71,53 @@ def add_staff(staff: Staff):
 
 #### USER AUTHENTICATION ####
 @router.post("/signup")
-async def signup(user : User):
+async def signup(user : User, response: Response):
     if user.fullname == "" or user.password == "" or user.mobile=="":
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {"ERROR":"MISSING PARAMETERS"}
     otp = generateOTP()
     requests.get(SMS_WEBHOOK,params = {"authorization": API_KEY, "variables_values":otp,"route":"otp","numbers":user.mobile})
     user.otp = otp
     result = create_user(user)
     if result == "Some Error Occurred":
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return result
     else:
         return {"SUCCESS":"TRUE"}  
 
 @router.post("/login")
-async def login(user : UserLogin):
+async def login(user : UserLogin, response: Response):
     if user.mobile == "" or user.password == "":
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {"ERROR":"MISSING PARAMETERS"}
     
     result = check_user(user)
     if "ERROR" in result.keys():
+        response.status_code = status.HTTP_401_UNAUTHORIZED
         return result
     return {"mobile":result['mobile'],"fullname":result['fullname']}
 
 
 @router.post("/getotp")
-async def get_otp(user : UserLogin):
+async def get_otp(user : UserLogin, response: Response):
     if user.mobile == "" or user.password == "":
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {"ERROR":"MISSING PARAMETERS"}
     result = check_user(user)
     if "ERROR" in result.keys():
+        response.status_code = status.HTTP_401_UNAUTHORIZED
         return result
     otp = generateOTP()
     requests.get(SMS_WEBHOOK, params = {"authorization": API_KEY, "variables_values":otp,"route":"otp","numbers":user.mobile})
     if update_otp(user.mobile,otp)=="SUCCESS":
         return {"SUCCESS":"OTP SENT"}
+    response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     return {"ERROR":"SOME ERROR OCCURRED"}
 
 @router.post("/checkotp")
-async def check_otp(user : UserLogin):
+async def check_otp(user : UserLogin, response: Response):
     if user.mobile == "" or user.password == "":
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {"ERROR":"MISSING PARAMETERS"}
     result = check_user(user,user.otp)
     
@@ -119,6 +127,7 @@ async def check_otp(user : UserLogin):
     if make_user_valid(user.mobile) == "SUCCESS":
         return {"mobile":result['mobile'],"fullname":result['fullname']}
     else:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"ERROR":"SOME ERROR OCCURED WHILE UPDATING THE USER STATE"}
 
 

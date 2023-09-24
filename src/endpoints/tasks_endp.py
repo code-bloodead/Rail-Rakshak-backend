@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from src.models.tasks_model import Task, IncidentToTask
 from src.database.task_db import create_task
-from src.database.incident_db import get_incident_by_id, update_incident_status
+from src.database.incident_db import get_incident_by_id
 
 router = APIRouter(
     prefix="/tasks",
@@ -47,7 +47,5 @@ def convert_incident_to_task(incedent_to_task: IncidentToTask):
         task.status = "Assigned"
 
     result = create_task(task)
-
-    update_incident_status(incedent_to_task.incident_id, "Working on it")
 
     return result

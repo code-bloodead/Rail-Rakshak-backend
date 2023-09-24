@@ -9,7 +9,7 @@ class Task(BaseModel):
     created_at: str = Form(default="")
     deadline: str = Form(default="")
     type: str = Form(default="")
-    status: str = Form(default="Not Assigned")
+    status: str = Form(default="Pending")
     assc_incident: str = Form(default="N/A")
     dept_name: str = Form(default="")
     station_name: str = Form(default="")

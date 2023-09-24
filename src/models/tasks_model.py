@@ -4,6 +4,7 @@ from fastapi import Form
 class Task(BaseModel):
     id: str = Form(default="")
     description: str = Form(default="")
+    title: str = Form(default="")
     assigned_to: list = Form(default=[])
     image: str = Form(default="")
     created_at: str = Form(default="")

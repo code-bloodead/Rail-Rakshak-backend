@@ -13,7 +13,7 @@ router = APIRouter(
 
 @router.post("/create_task")
 def create_task_manually(task: Task):
-    if task.description == "" or task.type == "":
+    if task.title == "" or task.description == "" or task.type == "":
         return {"ERROR": "MISSING PARAMETERS"}
 
     task.dept_name = "Maintenance" if task.type in ["Cleanliness", "Others"] else "Security"
@@ -40,7 +40,8 @@ def convert_incident_to_task(incedent_to_task: IncidentToTask):
         type=incident.type,
         assc_incident=incedent_to_task.incident_id,
         station_name=incident.station_name,
-        dept_name=dept_name
+        dept_name=dept_name,
+        title=incident.title
     )
 
     if incedent_to_task.assigned_to != []:

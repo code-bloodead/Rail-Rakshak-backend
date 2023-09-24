@@ -11,7 +11,6 @@ router = APIRouter(
 
 # create task manually
 
-
 # @router.post("/create_task")
 # def create_task_manually(task: Task):
 #     if task.description == "" or task.type == "" or task.deadline == "":

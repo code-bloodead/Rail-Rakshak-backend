@@ -66,11 +66,11 @@ def update_incident_status(incident_id, status):
         return {"ERROR":"SOME ERROR OCCURRED"}
     
 def fetch_incidents_by_dept_and_station(dept_name, station_name):
-    # if dept_name = Maintenance then it should only fetch incidents of type Cleaniness, Others
+    # if dept_name = Maintenance then it should only fetch incidents of type Cleanliness, Others
     # if dept_name = Security then it should only fetch incidents of type Crime, Violence, Stampede, Safety Threat
     try:
         if dept_name == "Maintenance":
-            incidents_list = list(incidents.find({"station_name":station_name, "type":{"$in":["Cleaniness","Others"]}},{"_id":0}))
+            incidents_list = list(incidents.find({"station_name":station_name, "type":{"$in":["Cleanliness","Others"]}},{"_id":0}))
         else:
             incidents_list = list(incidents.find({"station_name":station_name, "type":{"$in":["Crime","Violence","Stampede","Safety Threat"]}},{"_id":0}))
         return {"SUCCESS": incidents_list}

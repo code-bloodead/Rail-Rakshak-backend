@@ -153,3 +153,15 @@ def update_otp(mobile,otp):
     except Exception as e:
         print(e)
         return "Some Error Occurred"
+    
+def update_user_token(mobile, token):
+    try:
+        document = users.update_one({"mobile": mobile}, {"$set": {"notification_token":token}})
+        if(document.matched_count>0):
+            return "SUCCESS"
+        else:
+            return "INVALID"
+    except Exception as e:
+        print(e)
+        return "Some Error Occurred"
+    

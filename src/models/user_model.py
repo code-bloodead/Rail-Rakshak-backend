@@ -8,11 +8,13 @@ class User(BaseModel):
     otp: str = Form(default="")
     is_verified: bool = Form(default=False)
     active: bool = Form(default=False)
+    notification_token: str = Form(default="")
 
 class UserLogin(BaseModel):
     mobile: str = Form(...)
     password: str = Form(...)
     otp: str = Form(default="")
+    notifcation_token: str = Form(default="")
 
 class UserToken(BaseModel):
     access_token: str = Form(...)

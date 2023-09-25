@@ -1,6 +1,6 @@
 from pymongo import ASCENDING
 from src.establish_db_connection import database
-import random, datetime
+import random
 
 tasks = database.Tasks
 tasks.create_index([("id", ASCENDING)], unique=True)
@@ -27,7 +27,6 @@ def create_task(task):
             id = generateID()
 
         document['id'] = id
-        document['created_at'] = datetime.datetime.now()
 
         tasks.insert_one(document)
        

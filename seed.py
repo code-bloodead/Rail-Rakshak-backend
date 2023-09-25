@@ -107,8 +107,8 @@ for i in range(10):
 
 #### Creating 10 incidents for each station
 
-#crime, violence, stampede, cleaniness, safety threat
-type = ["Crime","Violence","Stampede","Cleaniness","Safety Threat"]
+#crime, violence, stampede, cleanliness, safety threat
+type = ["Crime","Violence","Stampede","Cleanliness","Safety Threat"]
 
 for i in range(10):
     incident1 = Incidents(

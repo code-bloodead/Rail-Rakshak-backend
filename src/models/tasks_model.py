@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from fastapi import Form
+import datetime
 
 class Task(BaseModel):
     id: str = Form(default="")
@@ -7,7 +8,7 @@ class Task(BaseModel):
     title: str = Form(default="")
     assigned_to: list = Form(default=[])
     image: str = Form(default="")
-    created_at: str = Form(default="")
+    created_at: str = Form(default=datetime.datetime.now())
     deadline: str = Form(default="")
     type: str = Form(default="")
     status: str = Form(default="Pending")

@@ -10,7 +10,9 @@ class Staff(BaseModel):
     status: str = Form(default="Available")
     phone: str = Form(...)
     photo: str = Form(default="https://cdn-icons-png.flaticon.com/512/848/848006.png")
+    notification_token: str = Form(default="")
 
 class StaffLogin(BaseModel):
     id: str = Form(...)
     password: str = Form(...)
+    notifcation_token: str = Form(default="")

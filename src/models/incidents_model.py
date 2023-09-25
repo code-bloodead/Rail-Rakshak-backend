@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from fastapi import Form
+import datetime
 
 class Incidents(BaseModel):
     id: str = Form(default="")
@@ -11,3 +12,4 @@ class Incidents(BaseModel):
     location: str = Form(...)
     source: str = Form(default="CCTV")
     status: str = Form(default="Pending")
+    created_at: str = Form(default=datetime.datetime.now())

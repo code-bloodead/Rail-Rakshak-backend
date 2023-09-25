@@ -17,3 +17,14 @@ def get_staffs_by_dept(dept_name, station_name):
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
+
+def update_staff_token(id, token):
+    try:
+        document = admins.update_one({"id": id}, {"$set": {"notification_token":token}})
+        if(document.matched_count>0):
+            return "SUCCESS"
+        else:
+            return "INVALID"
+    except Exception as e:
+        print(e)
+        return "Some Error Occurred"

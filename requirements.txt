@@ -17,3 +17,4 @@ boto3
 # torch
 # ultralytics
 pydantic
+firebase-admin

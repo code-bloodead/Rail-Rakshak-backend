@@ -1,6 +1,7 @@
 from pymongo import ASCENDING
 from src.establish_db_connection import database
 from src.models.incidents_model import Incidents
+from src.database.task_db import delete_task_by_incident
 import random
 
 incidents = database.Incidents
@@ -77,4 +78,15 @@ def fetch_incidents_by_dept_and_station(dept_name, station_name):
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
-    
+
+def delete_incident_by_id(id):
+    try:
+        incidents.delete_one({"id":id})
+        # Delete all tasks associated with this incident
+        result = delete_task_by_incident(id)
+        if "SUCCESS" not in result:
+            return result
+        return {"SUCCESS":"INCIDENT DELETED"}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

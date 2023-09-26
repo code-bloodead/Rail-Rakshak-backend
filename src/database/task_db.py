@@ -43,4 +43,11 @@ def fetch_tasks_by_dept(dept_name, station_name):
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
-    
+
+def delete_task_by_incident(incident_id):
+    try:
+        tasks.delete_one({"assc_incident":incident_id})
+        return {"SUCCESS":"DELETED"}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

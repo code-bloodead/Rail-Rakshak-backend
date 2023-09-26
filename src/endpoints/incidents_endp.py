@@ -5,6 +5,10 @@ from src.database.incident_db import (create_incident, fetch_all_incidents, fetc
 from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
 import boto3
 import random
+from ultralytics import YOLO
+import cv2
+import numpy as np
+import io
 
 s3 = boto3.resource(
     service_name='s3',
@@ -12,6 +16,8 @@ s3 = boto3.resource(
     aws_secret_access_key=f"{SECRET_KEY_AWS}"
 )
 bucket = s3.Bucket(S3_BUCKET_NAME)
+
+model = YOLO("./assets/last.pt")
 
 router = APIRouter(
     prefix="/incidents",
@@ -42,18 +48,34 @@ def new_incident(incident: Incidents):
         return {"ERROR":"SOME ERROR OCCURRED"}
 
 @router.post("/user_incident")
-def create_incident_by_user(image: UploadFile, title: str = Form(...), description: str = Form(...), type: str = Form(...), station_name: str = Form(...), location: str = Form(...), source: str = Form(...)):
+async def create_incident_by_user(image: UploadFile, title: str = Form(...), description: str = Form(...), type: str = Form(...), station_name: str = Form(...), location: str = Form(...), source: str = Form(...)):
     try:
-        incident = Incidents(title=title, description=description, type=type, station_name=station_name, location=location, source=source)
-
         filename = image.filename.replace(" ","")
         img_extension = filename.split(".")[1]
             
         if img_extension not in ["png", "jpg","jpeg"]:
             return {"ERROR":"INVALID IMAGE FORMAT"}
 
-        uname = str(filename.split(".")[0] + generateID() + "."+ img_extension)
-        bucket.upload_fileobj(image.file, uname)
+        # Read the image file into a numpy array
+        contents = await image.read()
+        nparr = np.fromstring(contents, np.uint8)
+
+        # Decode the image using OpenCV
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        results = model.predict(source=img, save_txt=False)
+        img_with_boxes = results[0].plot()
+
+        # Save the image with boxes to a BytesIO object
+        _, im_buf_arr = cv2.imencode(".jpg", img_with_boxes)
+        byte_im = im_buf_arr.tobytes()
+
+        # Create a BytesIO object from the byte array
+        byte_im_io = io.BytesIO(byte_im)
+
+        incident = Incidents(title=title, description=description, type=type, station_name=station_name, location=location, source=source)
+
+        uname = str(filename.split(".")[0] + generateID() + ".jpg")
+        bucket.upload_fileobj(byte_im_io, uname)
         url = f"https://{S3_BUCKET_NAME}.s3.amazonaws.com/{uname}"
         incident.image = url
 

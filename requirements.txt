@@ -11,12 +11,13 @@ boto3
 pydantic==1.9.1
 dnspython==2.2.1
 python-multipart==0.0.5
-# numpy
+ultralytics
+numpy
+opencv-python
 # pandas
 # seaborn
 # scikit-learn
 # tqdm
 # torchvision
 # torch
-# ultralytics
 # firebase-admin

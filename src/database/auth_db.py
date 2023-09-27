@@ -109,7 +109,7 @@ def create_user(user: User):
         document = user.dict()
         document['password'] = pwd_context.hash(user.password)
         result = users.insert_one(document)
-        return result
+        return {"SUCCESS": result}
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}

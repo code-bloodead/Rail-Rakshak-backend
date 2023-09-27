@@ -111,6 +111,7 @@ def create_user(user: User):
         users.insert_one(document)
         del document['password']
         del document['_id']
+        del document['otp']
         return document
     except Exception as e:
         print(e)

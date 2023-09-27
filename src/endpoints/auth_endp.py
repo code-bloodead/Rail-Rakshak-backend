@@ -85,6 +85,7 @@ async def signup(user : User, response: Response):
     requests.get(SMS_WEBHOOK,params = {"authorization": API_KEY, "variables_values":otp,"route":"otp","numbers":user.mobile})
     user.otp = otp
     result = create_user(user)
+    # check if result has error property
     if "ERROR" in result.keys():
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     return result

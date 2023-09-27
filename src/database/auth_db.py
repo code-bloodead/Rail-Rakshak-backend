@@ -108,8 +108,10 @@ def create_user(user: User):
     try:
         document = user.dict()
         document['password'] = pwd_context.hash(user.password)
-        result = users.insert_one(document)
-        return {"SUCCESS": result}
+        users.insert_one(document)
+        del document['password']
+        del document['_id']
+        return document
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}

@@ -112,7 +112,7 @@ def create_user(user: User):
         return result
     except Exception as e:
         print(e)
-        return "Some Error Occurred"
+        return {"ERROR":"SOME ERROR OCCURRED"}
 
 def check_user(user: UserLogin, otp=None):
     try:

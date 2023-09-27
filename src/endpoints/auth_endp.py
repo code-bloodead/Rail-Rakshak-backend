@@ -81,11 +81,9 @@ async def signup(user : User, response: Response):
     requests.get(SMS_WEBHOOK,params = {"authorization": API_KEY, "variables_values":otp,"route":"otp","numbers":user.mobile})
     user.otp = otp
     result = create_user(user)
-    if result == "Some Error Occurred":
+    if "ERROR" in result.keys():
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return result
-    else:
-        return {"SUCCESS":"TRUE"}  
+    return result
 
 @router.post("/login")
 async def login(user : UserLogin, response: Response):

@@ -56,11 +56,15 @@ def add_admin(admin: Admin):
 
 #login staff
 @router.post("/staff", description="Login Staff")
-def login_staff(staff: StaffLogin):
+def login_staff(staff: StaffLogin, response: Response):
     if staff.id == "" or staff.password == "":
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {"ERROR":"MISSING PARAMETERS"}
     
-    return validate_staff(staff)
+    result = validate_staff(staff)
+    if "ERROR" in result.keys():
+        response.status_code = status.HTTP_401_UNAUTHORIZED
+    return result
 
 # #create station admin
 @router.post("/create_staff", description="Create staff")

@@ -1,7 +1,6 @@
 from fastapi import APIRouter
-from src.models.tasks_model import Task, IncidentToTask
-from src.database.task_db import create_task, fetch_tasks_by_dept
-from src.database.incident_db import get_incident_by_id
+from src.models.tasks_model import Task
+from src.database.task_db import create_task, fetch_tasks_by_dept, delete_task_by_id
 
 router = APIRouter(
     prefix="/tasks",
@@ -25,3 +24,7 @@ def create_task_manually(task: Task):
 @router.get("/get_task_by_dept")
 def get_task_by_dept(dept_name: str, station_name: str):
     return fetch_tasks_by_dept(dept_name, station_name)
+
+@router.delete("/delete_task")
+def delete_task(task_id: str):
+    return delete_task_by_id(task_id)

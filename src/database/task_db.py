@@ -51,3 +51,11 @@ def delete_task_by_incident(incident_id):
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
+
+def delete_task_by_id(task_id):
+    try:
+        tasks.delete_one({"id":task_id})
+        return {"SUCCESS":"DELETED"}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

@@ -29,7 +29,8 @@ def contains_initiating_strings(input_string):
 report_incident_inputs = [
     "report",
     "report incident",
-    "i want to report an incident",
+    "wish to report",
+    "want to report",
     "incident report",
     "reporting an incident",
     "report this incident",
@@ -79,7 +80,6 @@ thank_you_inputs = ["thanks", "thank you",
 
 
 def is_conclusive(message):
-
     # Check if the message is in the list of possible thank you expressions
     return any(input_text in message for input_text in thank_you_inputs)
 

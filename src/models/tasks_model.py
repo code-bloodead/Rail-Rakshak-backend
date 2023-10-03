@@ -8,6 +8,7 @@ class Task(BaseModel):
     title: str = Form(default="")
     assigned_to: list = Form(default=[])
     image: str = Form(default="")
+    last_modified: str = Form(default=datetime.datetime.now())
     created_at: str = Form(default=datetime.datetime.now())
     deadline: str = Form(default="")
     status: str = Form(default="Unassigned")

@@ -59,3 +59,12 @@ def delete_task_by_id(task_id):
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
+    
+def update_task_db(task):
+    try:
+        tasks.update_one({"id":task['id']}, {"$set":task})
+        task = tasks.find_one({"id":task['id']}, {"_id":0})
+        return {"SUCCESS":task}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

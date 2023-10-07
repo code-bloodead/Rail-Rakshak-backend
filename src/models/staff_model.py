@@ -8,7 +8,7 @@ class Staff(BaseModel):
     dept_name: str = Form(...)
     staff_name: str = Form(...)
     status: str = Form(default="Available")
-    #status are: Available, Busy
+    #status are: Available, Unavailable
     phone: str = Form(...)
     photo: str = Form(default="https://cdn-icons-png.flaticon.com/512/848/848006.png")
     notification_token: str = Form(default="")

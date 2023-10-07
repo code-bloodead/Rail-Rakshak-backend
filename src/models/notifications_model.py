@@ -7,6 +7,7 @@ class Notifications(BaseModel):
     description: str = Form(default="")
     title: str = Form(default="")
     type: str = Form(default="")
+    #types are report, incident, task
     dept_name: str = Form(default="")
     station_name: str = Form(default="")
     created_at: str = Form(default=datetime.datetime.now())

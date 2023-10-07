@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from fastapi import UploadFile, Form
 from src.models.incidents_model import Incidents
+from src.models.notifications_model import Notifications
+from src.database.notifications_db import create_notification
 from src.database.incident_db import (create_incident, fetch_all_incidents, fetch_incidents_by_dept_and_station, delete_incident_by_id)
 from src.config import AWS_KEY, SECRET_KEY_AWS, S3_BUCKET_NAME
 import boto3
@@ -80,6 +82,10 @@ async def create_incident_by_user(image: UploadFile, title: str = Form(...), des
         incident.image = url
 
         result = create_incident(incident)
+        # create notification
+        if incident.type in ["Safety Threat", "Violence", "Stampede", "Crime"]:
+            notification = Notifications(station_name=incident.station_name, dept_name="Security", title="New Report: " + incident.title, description=incident.description, type="report")
+            create_notification(notification)
         return result
     except Exception as e:
         print(e)

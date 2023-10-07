@@ -47,7 +47,8 @@ def update_task(task: Task):
     
     if task.get("status") == "Completed":
         update_staff_status(prev_assigned, "Available")
-        update_incident_status(task.assc_incident, "Resolved")
+        if task.get("assc_incident") != None:
+            update_incident_status(task.assc_incident, "Resolved")
         return result
     
     # # find common ids between prev_assigned and task.assigned_to

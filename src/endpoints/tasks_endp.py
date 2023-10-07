@@ -35,6 +35,7 @@ def get_task_by_dept(dept_name: str, station_name: str):
 
 @router.put("/update_task")
 def update_task(task: Task):
+    # print(task)
     prev_assigned = get_prev_assigned_staff(task.id)
 
     if task.assigned_to != [] and task.status != "Completed":
@@ -44,18 +45,18 @@ def update_task(task: Task):
     task = delete_na_fields(task.dict()) 
     result = update_task_db(task)
     
-    if task.status == "Completed":
+    if task.get("status") == "Completed":
         update_staff_status(prev_assigned, "Available")
         update_incident_status(task.assc_incident, "Resolved")
         return result
     
-    # find common ids between prev_assigned and task.assigned_to
-    # ids which are not common but are in prev_assigned should be updated to "Available"
-    # ids which are not common but are in task.assigned_to should be updated to "Unavailable"
-    # ids which are common should be left as it is
-    common_ids = set(prev_assigned).intersection(task.assigned_to)
+    # # find common ids between prev_assigned and task.assigned_to
+    # # ids which are not common but are in prev_assigned should be updated to "Available"
+    # # ids which are not common but are in task.assigned_to should be updated to "Unavailable"
+    # # ids which are common should be left as it is
+    common_ids = set(prev_assigned).intersection(task['assigned_to'])
     available = list(set(prev_assigned) - common_ids)
-    unavailable = list(set(task.assigned_to) - common_ids)
+    unavailable = list(set(task['assigned_to']) - common_ids)
 
     update_staff_status(available, "Available")
     update_staff_status(unavailable, "Unavailable")

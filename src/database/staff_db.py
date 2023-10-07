@@ -28,3 +28,11 @@ def update_staff_token(id, token):
     except Exception as e:
         print(e)
         return "Some Error Occurred"
+
+def update_staff_status(id, status):
+    try:
+        admins.update_many({"id":{"$in":id}}, {"$set":{"status":status}})
+        return {"SUCCESS":"STATUS UPDATED"}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

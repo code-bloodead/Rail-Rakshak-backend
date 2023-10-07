@@ -12,4 +12,5 @@ class Incidents(BaseModel):
     location: str = Form(...)
     source: str = Form(default="CCTV")
     status: str = Form(default="Pending")
+    #status are: Pending, Resolved, Rejected
     created_at: str = Form(default=datetime.datetime.now())

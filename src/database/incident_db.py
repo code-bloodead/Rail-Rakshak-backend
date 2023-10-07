@@ -90,3 +90,11 @@ def delete_incident_by_id(id):
     except Exception as e:
         print(e)
         return {"ERROR":"SOME ERROR OCCURRED"}
+    
+def update_incident_status(id, status):
+    try:
+        incidents.update_one({"id":id},{"$set":{"status":status}})
+        return {"SUCCESS":"STATUS UPDATED"}
+    except Exception as e:
+        print(e)
+        return {"ERROR":"SOME ERROR OCCURRED"}

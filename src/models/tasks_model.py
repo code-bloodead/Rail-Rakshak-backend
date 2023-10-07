@@ -12,6 +12,7 @@ class Task(BaseModel):
     created_at: str = Form(default=datetime.datetime.now())
     deadline: str = Form(default="")
     status: str = Form(default="Unassigned")
+    #status are: Unassigned, Assigned, Review, Completed
     assc_incident: str = Form(default="N/A")
     dept_name: str = Form(default="")
     station_name: str = Form(default="")

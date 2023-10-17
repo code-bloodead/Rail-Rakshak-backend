@@ -128,7 +128,9 @@ async def check_otp(user : UserLogin, response: Response):
     result = check_user(user,user.otp)
     
     if "ERROR" in result.keys():
-        return result
+        if result["ERROR"] != "USER NOT VERIFIED":
+            response.status_code = status.HTTP_401_UNAUTHORIZED
+            return result
     
     if make_user_valid(user.mobile) == "SUCCESS":
         return {"mobile":result['mobile'],"fullname":result['fullname']}

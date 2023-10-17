@@ -110,8 +110,9 @@ async def get_otp(user : UserLogin, response: Response):
         return {"ERROR":"MISSING PARAMETERS"}
     result = check_user(user)
     if "ERROR" in result.keys():
-        response.status_code = status.HTTP_401_UNAUTHORIZED
-        return result
+        if result["ERROR"] != "USER NOT VERIFIED":
+            response.status_code = status.HTTP_401_UNAUTHORIZED
+            return result
     otp = generateOTP()
     requests.get(SMS_WEBHOOK, params = {"authorization": API_KEY, "variables_values":otp,"route":"otp","numbers":user.mobile})
     if update_otp(user.mobile,otp)=="SUCCESS":

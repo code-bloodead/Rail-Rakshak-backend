@@ -125,7 +125,7 @@ def check_user(user: UserLogin, otp=None):
                 if otp == document['otp'] and document['otp']!="EXPIRED":
                     return document
                 else:
-                    {"ERROR":"INVALID OTP"}
+                    return {"ERROR":"INVALID OTP"}
             if document['is_verified']:
                 return document
             return {"ERROR":"USER NOT VERIFIED"}
